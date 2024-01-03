@@ -1,8 +1,6 @@
-const express = require("express");
 const Job = require("../../Models/JobModel");
 const OrganizationModal = require("../../Models/Organization_Model");
 
-const app = express();
 
 const GetAllPostedJobs = async (req, res, next) => {
   // get user latitude and longitude
@@ -22,4 +20,3 @@ const GetAllPostedJobs = async (req, res, next) => {
 };
 
 module.exports = GetAllPostedJobs;
-``
