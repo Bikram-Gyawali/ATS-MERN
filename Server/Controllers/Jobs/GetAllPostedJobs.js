@@ -2,13 +2,60 @@ const Job = require("../../Models/JobModel");
 const OrganizationModal = require("../../Models/Organization_Model");
 
 
-const GetAllPostedJobs = async (req, res, next) => {
+function encodeGeohash(latitude, longitude, precision = 12) {
+  const BASE32 = '0123456789bcdefghjkmnpqrstuvwxyz';
+  let geohash = '';
+  
+  let minLat = -90;
+  let maxLat = 90;
+  let minLon = -180;
+  let maxLon = 180;
+  
+  let isEven = true;
+
+  for (let i = 0; i < precision; i++) {
+      let mid;
+      if (isEven) {
+          mid = (minLon + maxLon) / 2;
+          if (longitude > mid) {
+              geohash += '1';
+              minLon = mid;
+          } else {
+              geohash += '0';
+              maxLon = mid;
+          }
+      } else {
+          mid = (minLat + maxLat) / 2;
+          if (latitude > mid) {
+              geohash += '1';
+              minLat = mid;
+          } else {
+              geohash += '0';
+              maxLat = mid;
+          }
+      }
+      isEven = !isEven;
+  }
+
+  return geohash;
+}
+
+// Example usage:
+const latitude = 37.7749;  // Replace with the actual latitude
+const longitude = -122.4194;  // Replace with the actual longitude
+const precision = 8;  // Adjust the precision as needed
+
+
+
+
+const GetAllPostedJob = async (req, res, next) => {
   // get user latitude and longitude
   const { latitude, longitude } = req.query;
 
   console.log("user data", latitude, longitude);
   // based upon the user longitude and latitude i have to find the nearest organization and also list other jobs available of other organization near to the user latitude and longitude
-  const getOrginization = await OrganizationModal.find();
+  const { latitude: orgLatitude, longitude: orgLongitude } = await OrganizationModal.find().lean();
+
 
   const fetchAllPostedJobs = await Job.find();
 
@@ -18,5 +65,66 @@ const GetAllPostedJobs = async (req, res, next) => {
     return res.status(400).json({ message: "No job found" });
   }
 };
+
+
+
+const GetAllPostedJobs = async (req, res, next) => {
+  // get user latitude and longitude
+  const { latitude, longitude } = req.query;
+
+  console.log("user data", latitude, longitude);
+
+  // Convert user coordinates to GeoHash
+  const userGeoHash = generateGeoHash(parseFloat(latitude), parseFloat(longitude));
+
+  const allOrganizations = await OrganizationModal.find().lean();
+
+
+  // Sort jobs based on their GeoHash proximity to the user
+  allOrganizations.sort((jobA, jobB) => {
+    const distanceA = geoHashDistance(userGeoHash, jobA.locationHash);
+    const distanceB = geoHashDistance(userGeoHash, jobB.locationHash);
+
+    return distanceA - distanceB;
+  });
+
+  if (allOrganizations.length > 0) {
+    let allJobs=[];
+    allOrganizations.map(async (org) => {
+       await Job.find({ organization_id: org._id }).then((jobs) => {
+         allJobs = [...allJobs, ...jobs];
+       })
+    })
+
+    return res.status(200).json({ allJobs });
+  } else {
+    return res.status(400).json({ message: "No jobs found" });
+  }
+};
+
+// Function to calculate distance between two GeoHash strings
+function geoHashDistance(geoHash1, geoHash2) {
+  if (geoHash1.length !== geoHash2.length) {
+      throw new Error("GeoHash strings must have the same precision");
+  }
+
+  let distance = 0;
+
+  for (let i = 0; i < geoHash1.length; i++) {
+      if (geoHash1.charAt(i) !== geoHash2.charAt(i)) {
+          break;
+      }
+
+      // Each character in the GeoHash represents a different level of precision
+      // We add 1 for each different character to the distance
+      distance++;
+  }
+
+  return distance;
+}
+
+
+// Rest of the code remains unchanged
+
 
 module.exports = GetAllPostedJobs;
