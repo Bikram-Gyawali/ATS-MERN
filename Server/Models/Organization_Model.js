@@ -77,9 +77,6 @@ const OrganizationSchema = new mongoose.Schema({
   longitude: {
     type: Number,
   },
-  locationHash: {
-    type: String,
-  }
 });
 
 const OrganizationModal = mongoose.model("organization", OrganizationSchema);
