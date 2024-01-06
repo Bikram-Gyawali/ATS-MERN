@@ -7,6 +7,7 @@ const cloud = require("../../Config/Cloudnary.js");
 const OrganizationModal = require('../../Models/Organization_Model.js');
 const userModel = require('../../Models/User_Model.js');
 const { findOneAndUpdate } = require('../../Models/Organization_Model.js');
+const { generateGeoHash } = require('../../utils/geoHashAlgorithm.js');
 const ProfileRouter = async (req, res, next) => {
     //    --> ORGANIZATION DEATILS EXTRACTION
 
@@ -29,7 +30,7 @@ const ProfileRouter = async (req, res, next) => {
 
     // // --> EXTRACTING TEAM DATA
 
-
+    const locationHash = generateGeoHash(parseFloat(latitude), parseFloat(longitude));
 
     const { name, email, role } = req.body.team_details;
     const data = [{ name, email, role }];
@@ -71,6 +72,7 @@ const ProfileRouter = async (req, res, next) => {
             "team_members": data,
             "latitude": latitude,
             "longitude": longitude,
+            "locationHash": locationHash
         })
 
 
