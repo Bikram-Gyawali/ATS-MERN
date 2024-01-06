@@ -1,4 +1,4 @@
-export async function generateGeoHash(latitude, longitude, precision = 8) {
+const generateGeoHash = (latitude, longitude, precision = 8) => {
   const BASE32 = "0123456789bcdefghjkmnpqrstuvwxyz";
   let geohash = "";
 
@@ -32,6 +32,7 @@ export async function generateGeoHash(latitude, longitude, precision = 8) {
     }
     isEven = !isEven;
   }
-
   return geohash;
 }
+
+module.exports = generateGeoHash
