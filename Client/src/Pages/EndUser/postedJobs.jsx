@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import Banner from "../../assets/illustrations/job.png";
 function PostedJobs() {
   const [data, setData] = useState();
-  const [latitude, setLatitude] = useState(27.71622451476935);
-  const [longitude, setLongitude] = useState(85.32875224303612);
+  const [latitude, setLatitude] = useState();
+  const [longitude, setLongitude] = useState();
 
 
   const getUserLocation = () => {
@@ -14,9 +14,10 @@ function PostedJobs() {
         (position) => {
           const latitude = position.coords.latitude;
           const longitude = position.coords.longitude;
-
+          console.log("Latitude:", latitude, "Longitude:", longitude);
           setLatitude(latitude);
           setLongitude(longitude);
+          fetchData();
         },
         (error) => {
           console.error("Error getting location:", error.message);
@@ -27,17 +28,20 @@ function PostedJobs() {
     }
   };
   
-  
+  const fetchData = async () => {
+    const response = await axios.get(
+      "http://localhost:3003/job/get-all-jobs?latitude=" +
+        latitude +
+        "&longitude=" +
+        longitude
+    );
+    setData(response.data.fetchAllPostedJobs);
+  };
+
   useEffect(() => {
-    getUserLocation();
-    const fetchData = async () => {
-      const response = await axios.get(
-        "http://localhost:3003/job/get-all-jobs?latitude=" + latitude + "&longitude=" + longitude
-        );
-        setData(response.data.fetchAllPostedJobs);
-      };
-      fetchData();
-  }, [0]);
+    getUserLocation()
+    fetchData();
+  },  [ latitude, longitude ]);
 
   const navigate = useNavigate();
   const handleMe = (id) => {};

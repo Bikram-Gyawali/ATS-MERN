@@ -215,7 +215,7 @@ function PostJob() {
                 value={formData.department}
                 className=" select select-bordered w-full max-w-xs font-medium line1"
               >
-                <option disabled selected>
+                <option selected>
                   IT
                 </option>
                 <option value={"IT"}>IT</option>
@@ -224,6 +224,7 @@ function PostJob() {
                 <option value={"FINANCE"}>FINANCE</option>
                 <option value={"CONTRACT"}>CONTRACT</option>
                 {count?.[6][1].map((option) => (
+                  console.log(option),
                   <option key={option} value={option}>
                     {option}
                   </option>
@@ -247,7 +248,7 @@ function PostJob() {
                 value={formData.job_type}
                 className="select select-bordered w-full max-w-xs font-medium line1"
               >
-                <option disabled selected>
+                <option selected>
                   Full / Part Time{" "}
                 </option>
                 <option value={"Full Time"}>Full Time</option>
