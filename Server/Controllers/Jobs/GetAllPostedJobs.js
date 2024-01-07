@@ -1,6 +1,6 @@
 const Job = require("../../Models/JobModel");
 const OrganizationModal = require("../../Models/Organization_Model");
-
+const generateGeoHash = require("../../utils/geoHashAlgorithm");
 
 function encodeGeohash(latitude, longitude, precision = 12) {
   const BASE32 = '0123456789bcdefghjkmnpqrstuvwxyz';
@@ -67,18 +67,22 @@ const GetAllPostedJob = async (req, res, next) => {
 };
 
 
-
 const GetAllPostedJobs = async (req, res, next) => {
   // get user latitude and longitude
   const { latitude, longitude } = req.query;
 
   console.log("user data", latitude, longitude);
+  console.log(latitude,longitude)
+
+  if (latitude === "undefined" && longitude === "undefined") {
+    const fetchAllPostedJobs = await Job.find();
+    return res.status(200).json({ fetchAllPostedJobs });
+  }
 
   // Convert user coordinates to GeoHash
   const userGeoHash = generateGeoHash(parseFloat(latitude), parseFloat(longitude));
 
   const allOrganizations = await OrganizationModal.find().lean();
-
 
   // Sort jobs based on their GeoHash proximity to the user
   allOrganizations.sort((jobA, jobB) => {
@@ -89,14 +93,17 @@ const GetAllPostedJobs = async (req, res, next) => {
   });
 
   if (allOrganizations.length > 0) {
-    let allJobs=[];
-    allOrganizations.map(async (org) => {
-       await Job.find({ organization_id: org._id }).then((jobs) => {
-         allJobs = [...allJobs, ...jobs];
-       })
-    })
-
-    return res.status(200).json({ allJobs });
+    try {
+      let fetchAllPostedJobs = await Promise.all(allOrganizations.map(async (org) => {
+          const job = await Job.find({ org_id: org._id }).lean().exec();
+          return job;
+      }));
+      // Flatten the array of arrays to a single array
+      fetchAllPostedJobs = fetchAllPostedJobs.flat();
+      return res.status(200).json({ fetchAllPostedJobs, allOrganizations });
+  } catch (error) {
+      return res.status(500).json({ error: "Internal Server Error" });
+  }
   } else {
     return res.status(400).json({ message: "No jobs found" });
   }
