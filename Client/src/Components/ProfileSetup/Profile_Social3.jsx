@@ -16,8 +16,8 @@ function Profile_Social3() {
 
   // => A new object which can handle old + new value to pass to the next component using useNavigate()
   const [socialDetails, setSocialDetails] = useState({
-    facebook_url: "",
-    insta_url: "",
+    facebook_url: "fads",
+    insta_url: "fds",
     linkedin_url: "asd",
     yt_url: "dsa",
   });

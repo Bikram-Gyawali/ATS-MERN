@@ -11,7 +11,7 @@ function ProfileAddTeam() {
   var { Office_Profile } = location.state;
 
   // console.log(Office_Profile);
-
+  console.log("this is:", Office_Profile.office_details);
   //new object for POST API
   const data = {
     name: Office_Profile.office_details.office_Value.name,
@@ -45,15 +45,13 @@ function ProfileAddTeam() {
 
   // console.log(data);
   const [team_details, setTeamDetails] = useState({
-    name: "null",
+    name: "Bikram",
     email: "as@asd.com",
     role: "admin",
   });
 
-  console.log(data);
-
   //let's try with another object and pass it as a data
-
+  console.log("this is data", data);
   const cv = {
     logo: logo.url,
     detailed_data: data,
@@ -61,7 +59,6 @@ function ProfileAddTeam() {
   };
   const [type, setType] = useState();
 
-  console.log("this is cv",cv)
   const post_Method = () => {
     // axios POST request
     console.log("this is cv",cv)
@@ -71,8 +68,8 @@ function ProfileAddTeam() {
       headers: {
         Accept: "application/json",
         Authorization: localStorage.getItem("token"),
-        // "Content-Type": "multipart/form-data",
-        "Content-Type": "application/json;charset=UTF-8",
+        "Content-Type": "multipart/form-data",
+        // "Content-Type": "application/json;charset=UTF-8",
       },
       data: cv,
     };
