@@ -1,5 +1,5 @@
 	.DS_Store
-	.env		
+	.env
 	# Logs
 logs
 *.log
@@ -24,3 +24,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+
+/uploads
+
+uploads
