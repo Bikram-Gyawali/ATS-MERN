@@ -4,7 +4,7 @@ const VerifyToken = async (req, res, next) => {
 
 
     try {
-        const findUser = await userModel.findById({ _id: req.body.userID })
+        const findUser = await userModel.findById({ _id: req.headers.userID })
         if (findUser) {
             res.send(findUser)
         }
