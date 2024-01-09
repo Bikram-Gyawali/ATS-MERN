@@ -11,27 +11,14 @@ const ProfileSetup = express.Router();
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        //so it will store the images in the public directory
-        cb(null, "Models");
+        cb(null, 'uploads/');
     },
     filename: function (req, file, cb) {
-        cb(null, new Date().toISOString() + file.originalname);
+        cb(null, Date.now() + '-' + file.originalname);
     }
 });
 
-const multerFilter = (req, file, cb) => {
-    if (
-        file.mimetype === "image/png" ||
-        file.mimetype === "image/jpg" ||
-        file.mimetype === "image/jpeg"
-    ) {
-        cb(null, true);
-    } else {
-        cb(null, false);
-    }
-};
-
-const upload = multer({ storage: storage, multerFilter });
+const upload = multer({ storage: storage });
 
 // *******************************************************************
 
@@ -39,7 +26,7 @@ const upload = multer({ storage: storage, multerFilter });
 // -> MAIN CODE
 
 //1st Time Profile Setup Route
-ProfileSetup.post("/setup", AuthMiddleware, ProfileRouter);
+ProfileSetup.post("/setup", AuthMiddleware, upload.any(['logo',"logo_url"]),  ProfileRouter);
 
 ProfileSetup.post("/", (req, res) => {
     res.send("welcome")
