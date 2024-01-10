@@ -8,7 +8,7 @@ const UpdateProfilePicture = async (req, res, next) => {
     // // -> Storing selected image to cloud
 
     const file = req.file;
-    const userId = req.body.userId;
+    const userId = req.headers.userId;
     if (file && userId) {
         const findOrganization = await OrganizationModal.findById(userId);
         const img = await Cloudinary.v2.uploader.upload(req.file.path);
