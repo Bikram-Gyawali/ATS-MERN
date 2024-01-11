@@ -4,7 +4,7 @@ const OrganizationSchema = new mongoose.Schema({
   username: {
     type: String,
     required: [true, "Email is required"],
-    unique: true,
+    unique: false,
   },
 
   organization_name: {
@@ -77,6 +77,9 @@ const OrganizationSchema = new mongoose.Schema({
   longitude: {
     type: Number,
   },
+  locationHash: {
+    type: String,
+  }
 });
 
 const OrganizationModal = mongoose.model("organization", OrganizationSchema);
