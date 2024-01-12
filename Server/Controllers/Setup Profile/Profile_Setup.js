@@ -7,17 +7,17 @@ const cloud = require("../../Config/Cloudnary.js");
 const OrganizationModal = require('../../Models/Organization_Model.js');
 const userModel = require('../../Models/User_Model.js');
 const { findOneAndUpdate } = require('../../Models/Organization_Model.js');
-const { generateGeoHash } = require('../../utils/geoHashAlgorithm.js');
+const generateGeoHash = require('../../utils/geoHashAlgorithm.js');
+
 const ProfileRouter = async (req, res, next) => {
     //    --> ORGANIZATION DEATILS EXTRACTION
-
+    console.log("reqbody",req.headers.userID)
     const org_name = req.body.detailed_data.name;
-
     const phone = req.body.detailed_data.phone;
     const latitude = req.body.detailed_data.latitude;
     const longitude = req.body.detailed_data.longitude;
     const website_link = req.body.detailed_data.website_link;
-    const logo = req.body.detailed_data.logo_url;
+    const logo = req.body.logo;
     const departments = req.body.detailed_data.departments;
     const address = req.body.detailed_data.address;
     const city = req.body.detailed_data.city;
@@ -29,29 +29,27 @@ const ProfileRouter = async (req, res, next) => {
     const linkedIn_link = req.body.detailed_data.linkedin_link;
 
     // // --> EXTRACTING TEAM DATA
-
-    const locationHash = generateGeoHash(parseFloat(latitude), parseFloat(longitude));
-
+    try {
+    const locationHash = await generateGeoHash(parseFloat(latitude), parseFloat(longitude));
     const { name, email, role } = req.body.team_details;
     const data = [{ name, email, role }];
-    // console.log(data);
+    console.log(departments);
     var departments2 = [departments]
-    departments2 = departments2[0].list
+    departments2 = departments2[0] ? departments2[0].list : []
 
     // // -> to get the image url path    
     // console.log(req.file.path)
 
     // // -> Storing selected image to cloud
-
-    // const img = await Cloudinary.v2.uploader.upload(req.file.path);
-    // const img_url = img.secure_url;
+    console.log("req.file",req.files[0].path)
+    const img = await Cloudinary.v2.uploader.upload(req.files[0].path);
+    const img_url = img.secure_url;
 
     // -> so 1st check is there is valid reg user which is trying to setup org account
-    const checkUser = await userModel.findById(req.body.userID)
-    console.log(checkUser)
-    if (checkUser.org_registered == false) {
+    const checkUser = await userModel.findById(req.headers.userID)
+    console.log("checkuser",checkUser)
 
-        console.log('1st time hai');
+    if (checkUser.org_registered == false) {
 
         const org = await new OrganizationModal({
             "username": checkUser.username,
@@ -59,7 +57,7 @@ const ProfileRouter = async (req, res, next) => {
             "organization_name": org_name,
             "phoneNo": phone,
             "website": website_link,
-            "logo": "Temp_URL",
+            "logo": img_url,
             "departments": departments2,
 
             "office_address": address,
@@ -77,7 +75,6 @@ const ProfileRouter = async (req, res, next) => {
 
 
         await org.save()
-
         // findOneAndUpdate
 
         try {
@@ -86,15 +83,13 @@ const ProfileRouter = async (req, res, next) => {
 
             var user_id = org._id;
             user_id = user_id.toString();
-            console.log("user id",user_id)
             const profile = await userModel.findOneAndUpdate(
-                { _id: req.body.userID }, // replace with the organization ID
+                { _id: req.headers.userID }, // replace with the organization ID
                 { $set: { org_registered: true, org_id: user_id } }, // use $set operator to update the field
                 { new: true }, // return the updated document
             );
             await org.save()
             await profile.save();
-            console.log("in profile setup", profile)
 
 
             return res.status(200).json({ message: "user saved" });
@@ -106,7 +101,6 @@ const ProfileRouter = async (req, res, next) => {
 
 
     }
-
     //1st Make Sure Is Organization is already registered or not
     else if (checkUser.org_registered == true) {
         // console.log('2nd time hai');
@@ -116,6 +110,10 @@ const ProfileRouter = async (req, res, next) => {
 
 
     return res.status(404).json({ message: "Invalid username" })
+} catch (error) {
+    console.log(error)
+    return res.status(500).json(error)
+}
 }
 
 
