@@ -209,7 +209,7 @@ function LeftMenuBar() {
         </div>
       </div>
 
-      <Link to={"portal/job"}>
+      <Link to={"/portal/job"}>
         <div
           className="flex w-3/5 rounded-md m-auto bg-gray-200 cursor-pointer  justify-center mt-32 items-end p-2
       hover:bg-primary hover:text-white
