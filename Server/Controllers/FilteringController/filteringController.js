@@ -18,7 +18,16 @@ const getAIFilteredCandidates = async (req, res, next) => {
       return candidate.ResumeURL;
     });
 
-    // implement cosine similarity or ifdif alogorithm for filtering out the candidates based on their resumes comparing with job description
+    // implement cosine similarity or ifdif alogorithm for filtering out the candidates based on their resumes comparing with job description need to implement it with packages
+
+    const filteredCandidates = appliedCandidates.filter((candidate) => {
+      const candidateResume = candidate.ResumeURL;
+      return resumeURL.includes(candidateResume);
+    });
+
+    return res.status(200).json({
+      appliedCandidates: filteredCandidates,
+    })
   } catch (error) {
     next(error);
   }
