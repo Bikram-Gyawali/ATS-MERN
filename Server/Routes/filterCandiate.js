@@ -3,6 +3,6 @@ const getAIFilteredCandidates = require("../Controllers/FilteringController/filt
 
 const CandidateFilter = express.Router();
 
-CandidateFilter.post("/filter-candiates", getAIFilteredCandidates);
+CandidateFilter.post("/filter-candiates/:jobId", getAIFilteredCandidates);
 
 module.exports = CandidateFilter;

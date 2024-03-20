@@ -26,7 +26,7 @@ const RecruitmentRouter = express.Router();
 
 RecruitmentRouter.post("/active/applied", GetOrganizationPostedJobApplicants)
 RecruitmentRouter.post("/active/user", showActiveCandidateDetails);
-RecruitmentRouter.post("/active/user/filter", FilterCandidates);
+RecruitmentRouter.post("/active/user/filter/:jobId", FilterCandidates);
 RecruitmentRouter.delete("/active/user/delete", DeleteCandidateProfile);
 RecruitmentRouter.post("/active/user/add/comments", HandleComments);
 RecruitmentRouter.patch("/active/user/patch/comments", PatchComments);
