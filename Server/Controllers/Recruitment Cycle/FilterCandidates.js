@@ -1,11 +1,15 @@
 const express = require("express");
 const Candidate = require("../../Models/Candidate");
+const Job = require("../../Models/JobModel");
 
 const FilterCandidates = async (req, res, next) => {
     console.log("running now");
 
     const { filter_value } = req.body;
-    const BSCandidates = await Candidate.find();
+    const { jobId } = req.params;
+
+
+    const BSCandidates = await Candidate.find({jobID: jobId}).lean();
 
     if (filter_value == "MALE") {
         const result = BSCandidates.filter((level) => level.gender == "Male");
