@@ -9,10 +9,17 @@ function FilterProfiles({ can, setCan }) {
   const [city, setCity] = useState();
   const [slider, setSlider] = useState(0);
   const city_name = useRef();
+
+  // get current routes path last value
+  const path = window.location.pathname;
+  const pathArray = path.split("/");
+  const jobId = pathArray[pathArray.length - 1];
+
+  console.log("current job id", jobId);
   const filterCandidates = async (filter) => {
     // axios POST request
     const options = {
-      url: "http://localhost:3003/details/active/user/filter",
+      url: `http://localhost:3003/details/active/user/filter/${jobId}`,
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -32,9 +39,45 @@ function FilterProfiles({ can, setCan }) {
       });
   };
 
+  const filterCandidatesWithAI = async (filter) => {
+    // axios POST request
+    const options = {
+      url: `http://localhost:3003/candidate/filter-candiates/${jobId}`,
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json;charset=UTF-8",
+      },
+    };
+
+    axios(options)
+      .then((response) => {
+        setCan(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
   return (
     <div className="hidden sm:block">
       <h3 className="line2 font-light text-gray-700">Filter Profile</h3>
+
+      {/* implement ai filter button */}
+      {/* add some ripple kind of aniimation to the button */}
+
+      <button
+        className="button2 mt-2 cursor-pointer w-full bg-base-300 rounded"
+        onClick={filterCandidatesWithAI}
+      >
+        <h4 className="heading3b text-gray-800 pt-4 pb-3 text-center">
+          AI Filter
+        </h4>
+        <span
+          className="absolute top-0 left-0 w-full h-full bg-white opacity-50 rounded ripple"
+          style={{ transform: "scale(0)", animation: "ripple-effect 0.5s" }}
+        ></span>{" "}
+      </button>
 
       <div className="shadow-md rounded-md bg-white mt-2">
         <h4 className="heading3b text-gray-800 pt-4 pb-3 text-center">
@@ -49,7 +92,7 @@ function FilterProfiles({ can, setCan }) {
             defaultChecked={false}
             display={"block"}
             className="mb-2"
-            onChange={() => filterCandidates("BS")}
+            onChange={async () => await filterCandidates("BS")}
           >
             BS
           </Checkbox>
@@ -60,7 +103,7 @@ function FilterProfiles({ can, setCan }) {
             defaultChecked={false}
             display={"block"}
             className="mb-2"
-            onChange={() => filterCandidates("MS")}
+            onChange={async () => filterCandidates("MS")}
           >
             MS
           </Checkbox>
@@ -72,7 +115,7 @@ function FilterProfiles({ can, setCan }) {
             display={"block"}
             fontSize={"2"}
             className="mb-2"
-            onChange={() => filterCandidates("PHD")}
+            onChange={async () => filterCandidates("PHD")}
           >
             Ph.D
           </Checkbox>
@@ -124,7 +167,7 @@ function FilterProfiles({ can, setCan }) {
         {city !== null ? (
           <div className="flex flex-wrap mt-4  ">
             <h5
-              onClick={() => filterCandidates("City:" + city)}
+              onClick={async () => await filterCandidates("City:" + city)}
               className="cursor-pointer line1 bg-gray-800 p-2 rounded-lg text-white ml-3"
             >
               {city}
