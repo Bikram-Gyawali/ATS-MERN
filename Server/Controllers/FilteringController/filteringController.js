@@ -1,9 +1,8 @@
 const Job = require("../../Models/JobModel");
 const Candidates = require("../../Models/Candidate");
 const natural = require("natural");
-const axios = require("axios"); // For making HTTP requests
-const { parse } = require("node-html-parser"); // For parsing HTML
-const pdf = require("pdf-parse"); // For parsing PDF files
+const axios = require("axios");
+const pdf = require("pdf-parse");
 
 const getAIFilteredCandidates = async (req, res, next) => {
   try {
@@ -14,29 +13,34 @@ const getAIFilteredCandidates = async (req, res, next) => {
     if (!job) {
       return res.status(400).json({ error: "Job not found" });
     }
-    console.log("job id", jobId);
+
     const appliedCandidates = await Candidates.find({ jobID: jobId }).lean();
 
     const jobDescription = job.job_description;
-    console.log("applied candidates", appliedCandidates, "job description", jobDescription);
+
     // Preprocess job description
-    const tokenizedJobDescription = new natural
-      .WordTokenizer()
-      .tokenize(jobDescription.toLowerCase());
-    console.log("tokenizedJobDescription", tokenizedJobDescription);
+    const tokenizedJobDescription = new natural.WordTokenizer().tokenize(
+      jobDescription.toLowerCase()
+    );
+      console.log("tokenizedJobDescription", tokenizedJobDescription);
     // Fetch and process resumes
+    console.log("appliedCandidates", appliedCandidates);
     const processedCandidates = await Promise.all(
       appliedCandidates.map(async (candidate) => {
         try {
-          const response = await axios.get(candidate.ResumeURL, { responseType: "arraybuffer" });
-          const pdfBuffer = response.data;
-          console.log("pdfBuffer", pdfBuffer);
-          const pdfText = await pdf(pdfBuffer);
+          console.log("candidate", candidate.profilePic);
+          const response = await axios.get(candidate.profilePic, {
+            responseType: "arraybuffer", // Ensure response is treated as binary data
+          });
+          const pdfData = Buffer.from(response.data)
+          console.log("pdfData", pdfData);
+          // Parse PDF data
+          const pdfText = await pdf(pdfData);
 
-          const tokenizedResume = new natural
-            .WordTokenizer()
-            .tokenize(pdfText.text.toLowerCase());
-          console.log("tokenizedResume", tokenizedResume);
+          const tokenizedResume = new natural.WordTokenizer().tokenize(
+            pdfText.text.toLowerCase()
+          );
+            console.log("tokenizedResume", tokenizedResume);
           // Compute TF-IDF for resume
           const tfidf = new natural.TfIdf();
           tfidf.addDocument(tokenizedResume);
@@ -55,7 +59,7 @@ const getAIFilteredCandidates = async (req, res, next) => {
 
           const cosineSimilarity =
             dotProduct / (Math.sqrt(jobMagnitude) * Math.sqrt(resumeMagnitude));
-
+            console.log("cosineSimilarity", cosineSimilarity);
           return {
             candidate,
             similarity: cosineSimilarity,
@@ -69,14 +73,11 @@ const getAIFilteredCandidates = async (req, res, next) => {
       })
     );
 
-    console.log("processedCandidates", processedCandidates);
-
     // Filter out any candidates where an error occurred during processing
     const filteredCandidates = processedCandidates.filter(
       (candidate) => candidate !== null
     );
 
-    console.log("filteredCandidates", filteredCandidates);
     // Sort candidates based on similarity
     const sortedCandidates = filteredCandidates.sort(
       (a, b) => b.similarity - a.similarity
