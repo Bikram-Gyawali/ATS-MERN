@@ -3,11 +3,11 @@ const Candidates = require("../../Models/Candidate");
 const natural = require("natural");
 const axios = require("axios");
 const pdf = require("pdf-parse");
+const htmlToText = require('html-to-text');
 
 const getAIFilteredCandidates = async (req, res, next) => {
   try {
     const jobId = req.params.jobId;
-
     const job = await Job.findById(jobId);
 
     if (!job) {
@@ -15,59 +15,59 @@ const getAIFilteredCandidates = async (req, res, next) => {
     }
 
     const appliedCandidates = await Candidates.find({ jobID: jobId }).lean();
-
-    const jobDescription = job.job_description;
+    const jobDescription = htmlToText.htmlToText(job.job_description);
 
     // Preprocess job description
     const tokenizedJobDescription = new natural.WordTokenizer().tokenize(
       jobDescription.toLowerCase()
     );
-      console.log("tokenizedJobDescription", tokenizedJobDescription);
+
+    // Compute TF-IDF for job description
+    const tfidfJobDescription = new natural.TfIdf();
+    tfidfJobDescription.addDocument(tokenizedJobDescription.join(" "));
+
     // Fetch and process resumes
-    console.log("appliedCandidates", appliedCandidates);
     const processedCandidates = await Promise.all(
       appliedCandidates.map(async (candidate) => {
         try {
-          console.log("candidate", candidate.profilePic);
           const response = await axios.get(candidate.profilePic, {
             responseType: "arraybuffer", // Ensure response is treated as binary data
           });
-          const pdfData = Buffer.from(response.data)
-          console.log("pdfData", pdfData);
+          const pdfData = Buffer.from(response.data);
+
           // Parse PDF data
           const pdfText = await pdf(pdfData);
+
+          // Check if pdfText.text is defined
+          if (!pdfText || !pdfText.text) {
+            console.error(
+              `Error parsing PDF for candidate ${candidate._id}: PDF text is undefined.`
+            );
+            return null; // Skip this candidate
+          }
 
           const tokenizedResume = new natural.WordTokenizer().tokenize(
             pdfText.text.toLowerCase()
           );
-            console.log("tokenizedResume", tokenizedResume);
-          // Compute TF-IDF for resume
-          const tfidf = new natural.TfIdf();
-          tfidf.addDocument(tokenizedResume);
 
+          // Join tokens back into a single string
+          const resumeText = tokenizedResume.join(" ");
+
+          // Compute TF-IDF vector for resume
+          const tfidfResume = new natural.TfIdf();
+          tfidfResume.addDocument(resumeText.toString());
+
+          const resumeVector = tfidfResume.tfidf(resumeText.toString());
+            console.log("resume vector",resumeVector)
+          // Compute TF-IDF vector for job description
+          const jobDescriptionVector = tfidfJobDescription.tfidf(tokenizedJobDescription.join(" "));
+            console.log("job description vector",jobDescriptionVector)
           // Calculate cosine similarity
-          let dotProduct = 0;
-          let jobMagnitude = 0;
-          let resumeMagnitude = 0;
+          const similarity = natural.TfIdfVector.prototype.tfidf.cosine(resumeVector, jobDescriptionVector);
 
-          tokenizedJobDescription.forEach((term) => {
-            const jobTFIDFValue = tfidf.tfidf(term, 0); // 0 represents the index of the job description
-            dotProduct += tfidf.tfidf(term) * jobTFIDFValue;
-            jobMagnitude += Math.pow(jobTFIDFValue, 2);
-            resumeMagnitude += Math.pow(tfidf.tfidf(term), 2);
-          });
-
-          const cosineSimilarity =
-            dotProduct / (Math.sqrt(jobMagnitude) * Math.sqrt(resumeMagnitude));
-            console.log("cosineSimilarity", cosineSimilarity);
-          return {
-            candidate,
-            similarity: cosineSimilarity,
-          };
+          return { ...candidate, similarity };
         } catch (error) {
-          console.error(
-            `Error processing candidate ${candidate._id}: ${error.message}`
-          );
+          console.error(`Error processing candidate: ${error.message}`);
           return null; // Handle error gracefully
         }
       })
