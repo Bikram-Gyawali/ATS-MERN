@@ -74,7 +74,7 @@ function ProfileP1() {
               type="text"
               name="name"
               id="name"
-              placeholder="Humza"
+              placeholder="Arjab"
               autoComplete="on"
               className="input input-bordered h-10 w-4/5 max-w-xs"
               value={profileData.name}
@@ -95,7 +95,7 @@ function ProfileP1() {
               type="tel"
               name="tel_number"
               id="tel_number"
-              placeholder="+92 - 1112-222"
+              placeholder="+977 9804683093"
               autoComplete="on"
               className="input input-bordered h-10 w-4/5 max-w-xs"
               value={profileData.phone_no}
