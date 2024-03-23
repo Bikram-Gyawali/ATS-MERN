@@ -109,7 +109,7 @@ function Profile_Office2() {
               id="f_name"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
-              placeholder="F-8/Makraz ISB"
+              placeholder="Buddhanagar, Kathmandu"
               autoComplete="on"
               className="input input-bordered h-10 w-full max-w-xs"
             />
@@ -125,7 +125,7 @@ function Profile_Office2() {
                   id="f_name"
                   value={city}
                   onChange={(e) => SetCity(e.target.value)}
-                  placeholder="Attock"
+                  placeholder="Kathmandu"
                   autoComplete="on"
                   className="input input-bordered h-10 w-11/12 max-w-xs"
                 />

@@ -2258,7 +2258,7 @@ function PostedJobApplyForm() {
             id="text"
             name="linkedin profile"
             autoComplete="on"
-            placeholder="linkedin.com/Humza-Sajid"
+            placeholder="www.linkedin.com/in/arjab-khadka-a2b68819a/"
             onChange={(e) => {
               setContactInformation((old) => ({
                 ...old,

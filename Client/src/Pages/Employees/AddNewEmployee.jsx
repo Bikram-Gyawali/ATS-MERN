@@ -25,7 +25,7 @@ function AddNewEmployee() {
             </label>
             <input
               type="text"
-              placeholder="Humza Sajid"
+              placeholder="Arjab Khadka"
               className="input input-bordered w-full max-w-xs"
             />
 
@@ -34,7 +34,7 @@ function AddNewEmployee() {
             </label>
             <input
               type="text"
-              placeholder="HumzaSajid@Microsoft.com"
+              placeholder="arjabkhadka@gmail.com"
               className="input input-bordered w-full max-w-xs"
             />
 

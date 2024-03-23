@@ -70,7 +70,7 @@ function AppliedApplicantProfile({ id }) {
                 <h3 className="line1 font-medium">City</h3>
               </div>
               <div>
-                <h3>Attock</h3>
+                <h3>Kathmandu</h3>
               </div>
             </div>
             <div className=" w-16">
