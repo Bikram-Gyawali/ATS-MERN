@@ -29,7 +29,8 @@
     "ngrok": "^4.3.3",
     "nodemailer": "^6.9.1",
     "pdf-lib": "^1.17.1",
-    "pdf-parse": "^1.1.1"
+    "pdf-parse": "^1.1.1",
+    "pdfreader": "^3.0.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"
