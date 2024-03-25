@@ -102,7 +102,7 @@ function JobDetails() {
                                 </h3>
                               </div>
                               <div>
-                                <h3>{e.duration[0] + "/year"}</h3>
+                                <h3>{e?.duration[0] + "/year"}</h3>
                               </div>
                             </div>
                             {/* EDUCATION STAT */}
