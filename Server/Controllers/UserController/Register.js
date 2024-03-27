@@ -159,7 +159,7 @@ const sendVerifyEmail = async (name, email, id) => {
           <tr>
             <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
               <p style="margin: 0;">
-                Dear <b> `+ name + `</b> you applied for Smart Cruiter.
+                Dear <b> `+ name + `</b> you applied for Smart RosAi.
 For account verification this link has been sent kindly click on verify  button to verify your account. 
                </p>
             </td>
@@ -187,7 +187,7 @@ For account verification this link has been sent kindly click on verify  button 
          
           <tr>
             <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-bottom: 3px solid #d4dadf">
-              <p style="margin: 0;"><b>Smart Cruiter</b><br> ATS System</p>
+              <p style="margin: 0;"><b>Smart RosAi</b><br> ATS System</p>
             </td>
           </tr>
           <!-- end copy -->
@@ -262,7 +262,7 @@ For account verification this link has been sent kindly click on verify  button 
     const mailOptions = {
       from: process.env.MAILUSER,
       to: email,
-      subject: 'Account Activation [Smart Cruiter]',
+      subject: 'Account Activation [Smart RosAi]',
       html: htmlCode,
     };
 
