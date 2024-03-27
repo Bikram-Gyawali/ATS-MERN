@@ -148,7 +148,7 @@ function ProfileAddTeam() {
                     email: e.target.value,
                   }))
                 }
-                placeholder="Email@abc.com"
+                placeholder="email@abc.com"
                 autoComplete="on"
                 className="input input-bordered h-10 max-w-xs inline"
               />
@@ -198,7 +198,7 @@ function ProfileAddTeam() {
                 type="email"
                 name="f_name"
                 id="f_name"
-                placeholder="Email@abc.com"
+                placeholder="email@abc.com"
                 autoComplete="on"
                 className="input input-bordered h-10 max-w-xs inline"
               />

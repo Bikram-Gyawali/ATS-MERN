@@ -1,15 +1,20 @@
 import React, { useRef, useState } from "react";
 import { Checkbox } from "@chakra-ui/react";
-
 import { BsPlusCircle } from "react-icons/bs";
 import axios from "axios";
-import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 function FilterProfiles({ can, setCan }) {
+  const { id } = useParams();
   const [city, setCity] = useState();
   const [slider, setSlider] = useState(0);
   const city_name = useRef();
   const [loading, setLoading] = useState(false); // State to manage loading state
+  const [bsChecked, setBsChecked] = useState(false);
+  const [msChecked, setMsChecked] = useState(false);
+  const [phdChecked, setPhdChecked] = useState(false);
+
+  // setOriginalCandidate(can);
 
   // get current routes path last value
   const path = window.location.pathname;
@@ -25,7 +30,10 @@ function FilterProfiles({ can, setCan }) {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json;charset=UTF-8",
-      }
+      },
+      data: {
+        filter_value: filter,
+      },
     };
 
     axios(options)
@@ -37,9 +45,38 @@ function FilterProfiles({ can, setCan }) {
       });
   };
 
+  // useEffect(() => {
+  const allCandidates = () => {
+    // dispath(startFetchingCandidatesData());
+    // axios POST request
+    const options = {
+      url: "http://localhost:3003/details/active/applied",
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json;charset=UTF-8",
+      },
+      data: {
+        job_id: id,
+      },
+    };
+
+    axios(options)
+      .then((response) => {
+        setCandidates(response.data);
+        // dispath(sucessOnFetchingCandidatesData(response.data));
+      })
+      .catch((e) => {
+        // dispath(errorFetchingCandidatesData(e));
+      });
+  };
+
+  allCandidates();
+  // }, [0]);
+
   const handleUserFilterWithAI = async () => {
-    await filterCandidatesWithAI()
-  }
+    await filterCandidatesWithAI();
+  };
 
   const filterCandidatesWithAI = async () => {
     setLoading(true); // Set loading to true when starting the API call
@@ -62,7 +99,6 @@ function FilterProfiles({ can, setCan }) {
       setLoading(false); // Set loading back to false when the API call is finished
     }
   };
-
   return (
     <>
       {loading ? (
@@ -80,7 +116,7 @@ function FilterProfiles({ can, setCan }) {
             className="button2 mt-2 cursor-pointer w-full bg-base-300 rounded"
             onClick={handleUserFilterWithAI}
           >
-            <h4 className="heading3b text-gray-800 pt-4 pb-3 text-center">
+            <h4 className="heading3b text-gray-800 pt-4 pb-3 text-center bg-accent">
               AI Filter
             </h4>
             <span
@@ -102,7 +138,10 @@ function FilterProfiles({ can, setCan }) {
                 defaultChecked={false}
                 display={"block"}
                 className="mb-2"
-                onChange={async () => await filterCandidates("BS")}
+                onChange={async () => {
+                  setBsChecked(!bsChecked);
+                  bsChecked ? filterCandidates("BS") : allCandidates();
+                }}
               >
                 BS
               </Checkbox>
@@ -113,7 +152,10 @@ function FilterProfiles({ can, setCan }) {
                 defaultChecked={false}
                 display={"block"}
                 className="mb-2"
-                onChange={async () => filterCandidates("MS")}
+                onChange={async () => {
+                  setMsChecked(!msChecked);
+                  msChecked ? filterCandidates("MS") : allCandidates();
+                }}
               >
                 MS
               </Checkbox>
@@ -125,7 +167,10 @@ function FilterProfiles({ can, setCan }) {
                 display={"block"}
                 fontSize={"2"}
                 className="mb-2"
-                onChange={async () => filterCandidates("PHD")}
+                onChange={async () => {
+                  setPhdChecked(!phdChecked);
+                  phdChecked ? filterCandidates("PhD") : allCandidates();
+                }}
               >
                 Ph.D
               </Checkbox>

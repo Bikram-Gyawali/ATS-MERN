@@ -214,7 +214,7 @@ function PostedJobApplyForm() {
             name="name"
             required
             autoComplete="on"
-            placeholder="Ali"
+            placeholder="Rojai"
             value={personalInformation.firstName}
             onChange={(e) => {
               setPersonalInformation((oldValue) => ({
@@ -234,7 +234,7 @@ function PostedJobApplyForm() {
             id="text"
             name="name"
             autoComplete="on"
-            placeholder="Adnan"
+            placeholder="Smart"
             value={personalInformation.lastName}
             onChange={(e) => {
               setPersonalInformation((oldValue) => ({
@@ -285,7 +285,7 @@ function PostedJobApplyForm() {
             id="text"
             name="address"
             autoComplete="on"
-            placeholder="G-9/4 ISB"
+            placeholder="Butwal-5"
             value={personalInformation.address}
             onChange={(e) => {
               setPersonalInformation((oldValue) => ({
@@ -304,7 +304,7 @@ function PostedJobApplyForm() {
             id="text"
             name="address"
             autoComplete="on"
-            placeholder="Islamabad"
+            placeholder="Butwal"
             value={personalInformation.city}
             onChange={(e) => {
               setPersonalInformation((oldValue) => ({
@@ -1718,7 +1718,7 @@ function PostedJobApplyForm() {
       </div>
 
       <footer className="bg-gray-700 h-12 flex justify-center items-center">
-        <h3 className="text-white line1">Powerd By Smart Cruiter </h3>
+        <h3 className="text-white line1">Powerd By Smart RosAi </h3>
       </footer>
     </div>
   );

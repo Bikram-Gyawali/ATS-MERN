@@ -3,9 +3,9 @@ import React, { useState, useEffect } from "react";
 import LeftMenuBar from "../../Components/Dashboard/LeftMenuBar";
 import TopNavigationBar from "../../Components/Dashboard/TopNavigationBar";
 import ProfileSetup from "../../Components/ProfileSetup/ProfileSetup";
-import DepartmentPhoto from "../../assets/illustrations/dep_1.jpg";
-import DepartmentPhoto2 from "../../assets/illustrations/dep_2.jpg";
-import DepartmentPhoto3 from "../../assets/illustrations/dep_3.jpg";
+import DepartmentPhoto from "../../assets/illustrations/college-building.jpg";
+import DepartmentPhoto2 from "../../assets/illustrations/college-building.jpg";
+import DepartmentPhoto3 from "../../assets/illustrations/college-building.jpg";
 import { HiOfficeBuilding } from "react-icons/hi";
 import { useDispatch } from "react-redux";
 import {
@@ -94,7 +94,7 @@ function HomePage() {
             // ~~ WHEN USER LOGIN 1ST TIME ~~
             <>
               <h1 className="heading1 ml-12  mt-20 text-transparent text-3xl sm:text-6xl bg-clip-text bg-gradient-to-r from-blue-500 to-black">
-                Welcome to Smart Cruiter
+                Welcome to Smart RosAi
               </h1>
               <div className="bg-white w-full sm:w-3/5 rounded-xl m-auto mt-4 topNavigationBoxShadow">
                 <ProfileSetup />

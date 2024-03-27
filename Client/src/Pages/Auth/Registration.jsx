@@ -98,14 +98,14 @@ function Registration() {
         <div className="w-2/5 shadows hidden sm:block ">
           <img
             className="h-full w-full"
-            src="https://images.unsplash.com/photo-1486175060817-5663aacc6655?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fGJ1aWxkaW5nc3xlbnwwfHwwfHw%3D&w=1000&q=80"
+            src="https://png.pngtree.com/background/20210711/original/pngtree-recruitment-computer-programmer-programming-poster-picture-image_1120467.jpg"
             alt=""
           />
         </div>
 
         <div className="w-full sm:w-3/5">
           <h2 className="text-center heading2b mt-5 sm:mt-5 text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-black">
-            Become A Part Of Smart Cruiter
+            Become A Part Of Smart RosAi
           </h2>
 
           <Modal
@@ -165,7 +165,7 @@ function Registration() {
                     onBlur={formik.handleBlur}
                     name="f_name"
                     id="f_name"
-                    placeholder="Ali"
+                    placeholder="Rosai"
                     autoComplete="on"
                     className="input input-bordered h-10 w-full max-w-xs"
                   />
@@ -185,7 +185,7 @@ function Registration() {
                     name="username"
                     id="username"
                     type="text"
-                    placeholder="Ahmad"
+                    placeholder="Smart"
                     autoComplete="on"
                     className="input input-bordered h-10 w-4/5 max-w-xs"
                   />
@@ -207,7 +207,7 @@ function Registration() {
                   name="email"
                   id="email"
                   type="email"
-                  placeholder="alexa@meta.com"
+                  placeholder="smart@rosai.com"
                   className="h-10 input input-bordered w-3/4"
                 />
                 {/* ERROR MSG */}

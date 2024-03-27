@@ -105,7 +105,7 @@ function PostedJobs() {
       </div>
 
       <footer className="bg-gray-100 bg-opacity-10 text-center heading4 text-gray-200 mt-16 rounded-lg p-2">
-        Powerd By : <p className="inline  font-medium"> Smart Cruiter</p>
+        Powerd By : <p className="inline  font-medium"> Smart RosAi</p>
       </footer>
     </div>
   );

@@ -16,9 +16,9 @@ function LeftMenuBar() {
       <div className="flex flex-col">
         <div>
           <img
-            className="m-auto mt-4"
+            className="m-auto mt-4 border-2 border-gray-500 rounded-full"
             width={60}
-            src="https://1000logos.net/wp-content/uploads/2022/07/Logo-ATT.png"
+            src="https://res.cloudinary.com/djmhegxuf/image/upload/v1711527880/Untitled_design_l86sor.png"
           />
         </div>
 
@@ -179,7 +179,7 @@ function LeftMenuBar() {
             </div>
 
             {/* SETTINGS */}
-            <div className="w-full bg-white hover:bg-blue-100 transition-all duration-[850ms] hover:rounded-lg ease-out py-2  ml-8 mb-2 flex items-center">
+            {/* <div className="w-full bg-white hover:bg-blue-100 transition-all duration-[850ms] hover:rounded-lg ease-out py-2  ml-8 mb-2 flex items-center">
               <div className="w-1/5">
                 <svg
                   className="m-auto"
@@ -204,7 +204,7 @@ function LeftMenuBar() {
                   <button className="inline navMenuFont">Settings</button>
                 </div>
               </Link>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

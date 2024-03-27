@@ -75,19 +75,29 @@ function Login() {
   });
 
   return (
-    <div className=" bg-gray-100 h-screen w-screen">
-      <div className="flex flex-wrap justify-center m-auto items-center  bg-white  w-full  sm:w-3/4 h-auto shadows">
-        <div className="w-full  p-10  sm:w-1/2">
-          <h1 className="font-extrabold text-transparent text-6xl bg-clip-text bg-gradient-to-r from-blue-500 to-black">
-            Smart Cruiter
-          </h1>
+    <div className=" bg-gray-100 h-screen w-screen items-center">
+      
+      <div className="flex flex-wrap justify-center m-auto items-center  bg-white  w-full  sm:w-4/4 h-auto shadows">
+         {/* 2nd Div */}
+         <div className="w-2/2 h-screen hidden shadows sm:block">
           <img
-            className="m-auto mt-4"
-            width={100}
-            src="https://1000logos.net/wp-content/uploads/2022/07/Logo-ATT.png"
+            className="h-screen"
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/DHARAHARA_TOWER.jpg/1200px-DHARAHARA_TOWER.jpg"
             alt=""
           />
-          <div className=" w-full">
+        </div>
+        <div className="w-full p-5  sm:w-1/2 items-center">
+          {/* <h1 className="font-extrabold text-transparent text-6xl bg-clip-text bg-gradient-to-r from-blue-500 to-black">
+            Smart RosAi
+          </h1> */}
+          {/*  */}
+          <img
+            className="rounded-l-box border-b-base-300 ml-32 "
+            width={200}
+            src="https://res.cloudinary.com/djmhegxuf/image/upload/v1711527880/Untitled_design_l86sor.png"
+            alt=""
+          />
+          <div className=" w-full items-center">
             <form
               className="form-control w-full m-2"
               onSubmit={formik.handleSubmit}
@@ -189,14 +199,6 @@ function Login() {
               </h4>
             </div>
           </div>
-        </div>
-        {/* 2nd Div */}
-        <div className="w-1/2 h-screen hidden shadows sm:block">
-          <img
-            className="h-screen"
-            src="https://www.atheneum.ai/wp-content/uploads/2019/07/Atheneum-Product-Corporate.png"
-            alt=""
-          />
         </div>
       </div>
     </div>
