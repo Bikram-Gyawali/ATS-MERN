@@ -60,7 +60,7 @@ const SentHiredEmail = async (req, res, next) => {
         </p>
       </div>
     </main>
-    <footer class="" style="padding: '0px'; margin: '0px'; color: rgb(54, 124, 223); font-size: 1.5em; font-weight: bold; text-align: center; text-decoration: underline;">Powered By: Smart Cruiter</footer>
+    <footer class="" style="padding: '0px'; margin: '0px'; color: rgb(54, 124, 223); font-size: 1.5em; font-weight: bold; text-align: center; text-decoration: underline;">Powered By: Smart RosAi</footer>
   </body>
 </html>
 

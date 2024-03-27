@@ -25,7 +25,7 @@ const FilterCandidates = async (req, res, next) => {
     // ->      FILTER ON YEARS OF EXPERIENCE
     //      **there is some issue with experience resolve it back
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+    console.log("filter value", filter_value);
     if (filter_value === "Experience" || filter_value.startsWith("Experience")) {
         //1st Trim the req.body value because i will be sending input in this format Experience:1
         const str = filter_value;

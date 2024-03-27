@@ -308,7 +308,7 @@ const forget_password = async (req, res, next) => {
                             <td>
                               <p class="f-fallback sub">
                                 <b>
-                                Smart Cruiter</b>
+                                Smart RosAi</b>
                               </p>
                             </td>
                           </tr>
@@ -342,7 +342,7 @@ const forget_password = async (req, res, next) => {
       const mailOptions = {
         from: process.env.MAILUSER,
         to: email,
-        subject: 'Account Reset Password [Smart Cruiter]',
+        subject: 'Account Reset Password [Smart RosAi]',
         html: htmlCode,
       };
 
