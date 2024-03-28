@@ -21,11 +21,24 @@ import { FiArrowLeft } from "react-icons/fi";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from "@chakra-ui/react";
 import GoBackButton from "../../Components/Common/GoBackButton";
 
+
+const generateUniqueURL = () => {
+  // Generate a unique identifier, for example, a timestamp
+  const uniqueIdentifier = Date.now();
+
+  // Concatenate the unique identifier with the base Google Meet URL
+  const googleMeetURL = `https://meet.google.com/unique_identifier=${uniqueIdentifier}`;
+
+  // Return the generated URL
+  return googleMeetURL;
+};
+
+
 function InterviewingCandidateDetails() {
   const { id } = useParams();
   const [value, onChange] = useState(new Date());
   const [time, setTime] = useState("10:00");
-
+  const [dateAndTime, setDateAndTime] = useState("0-0-0");
   const [candidateDetails, setCandidateDetails] = useState();
   const [discription, setDiscription] = useState();
   const [emailDetails, setEmailDetails] = useState({
@@ -34,7 +47,7 @@ function InterviewingCandidateDetails() {
   });
   const [showAlert, setShowAlert] = useState(false);
   const [rating, setRating] = useState();
-
+  // const [meetLink, setMeetLink] = useState("");
   useEffect(() => {
     const fetchAllInterviewingCanidate = () => {
       // axios POST request
@@ -87,6 +100,7 @@ function InterviewingCandidateDetails() {
       .then((response) => {
         if (response.status == 200) {
           JSAlert.alert("Added").dismissIn(1000 * 1);
+          setDateAndTime(value);
         } else {
           alert("Something went wrong , refresh page and try again");
         }
@@ -302,6 +316,7 @@ function InterviewingCandidateDetails() {
                   name=""
                   id=""
                   value={candidateDetails?.interview_link}
+                  onChange={(e) => {}}
                 />
 
                 <label

@@ -232,7 +232,7 @@ function ProfileAddTeam() {
           NEXT{" "}
         </button>
 
-        <Link to="/home">
+        <Link to="/">
           <p className="heading4 text-center mt-2 text-gray-400 cursor-pointer">
             Go back to HOME
           </p>
