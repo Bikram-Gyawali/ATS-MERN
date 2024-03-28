@@ -15,7 +15,7 @@ const SaveInterviewDateAndTime = async (req, res, next) => {
         interviewDate: `${day} - ${month} - ${year}`,
         interviewTime: `${time}`
     })
-
+    
     if (addData === null) {
         return res.status(500).json({ message: "Something went wrong" });
     } else {

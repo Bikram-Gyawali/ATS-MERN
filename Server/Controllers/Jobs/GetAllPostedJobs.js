@@ -75,7 +75,7 @@ const GetAllPostedJobs = async (req, res, next) => {
   console.log(latitude,longitude)
 
   if (latitude === "undefined" && longitude === "undefined") {
-    const fetchAllPostedJobs = await Job.find();
+    const fetchAllPostedJobs = await Job.find({job_status:"Active"}).lean();
     return res.status(200).json({ fetchAllPostedJobs });
   }
 
@@ -95,7 +95,7 @@ const GetAllPostedJobs = async (req, res, next) => {
   if (allOrganizations.length > 0) {
     try {
       let fetchAllPostedJobs = await Promise.all(allOrganizations.map(async (org) => {
-          const job = await Job.find({ org_id: org._id }).lean().exec();
+          const job = await Job.find({ org_id: org._id, job_status: "Active" }).lean().exec();
           return job;
       }));
       // Flatten the array of arrays to a single array
