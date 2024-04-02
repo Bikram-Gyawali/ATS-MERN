@@ -206,20 +206,10 @@ function testSimilarity() {
   const tfResume1 = calculateTF(tokenizedResume1);
   const tfResume2 = calculateTF(tokenizedResume2);
   const tfResume3 = calculateTF(tokenizedResume3);
-  // console.log("TF of resume1:", tfResume1);
-  // console.log("TF of resume2:", tfResume2);
-  // console.log("TF of resume3:", tfResume3);
   const tfidfResume1 = calculateTFIDF(tfResume1, idfJobDescription);
   const tfidfResume2 = calculateTFIDF(tfResume2, idfJobDescription);
   const tfidfResume3 = calculateTFIDF(tfResume3, idfJobDescription);
-  // console.log("resume 3 : ", resume3)
-  // console.log("resume 2 :", resume2)
-  // console.log("job description: ", jobDescription);
-  // console.log("tfidf of resume3: ", tfidfResume3);
-  // console.log("tfidf of resume2: ", tfidfResume2);
-  // console.log("tfidf of resume3: ", tfidfResume3);
 
-  // console.log("TF-IDF of resume1:", tfidfResume1);
   const similarity1 = calculateSimilarity(tfidfResume1, tokenizedJobDescription, idfJobDescription);
   const similarity2 = calculateSimilarity(tfidfResume2, tokenizedJobDescription, idfJobDescription);
   const similarity3 = calculateSimilarity(tfidfResume3, tokenizedJobDescription, idfJobDescription);
