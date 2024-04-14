@@ -68,12 +68,13 @@ function JobDetails() {
               COMPONENTS */}
               {candidates?.length !== 0 ? (
                 candidates?.map((e, index) => {
+                  const goodFit = e.goodFit;
                   return (
                     <>
                       <div
                         key={index}
                         onClick={(event) => handleNavigation(e._id)}
-                        className=" cursor-pointer  p-6  mt-9 w-11/12 flex  m-auto  rounded-lg border border-solid border-gray-200 hover:bg-gray-100"
+                        className={` cursor-pointer  p-6  mt-9 w-11/12 flex  m-auto  rounded-lg border border-solid border-gray-200 hover:bg-gray-100 ${goodFit ? "bg-green-100" : ""} `}
                       >
                         {/* CANIDATE PROFILE PICTURE */}
 
