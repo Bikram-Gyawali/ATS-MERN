@@ -130,8 +130,4 @@ function geoHashDistance(geoHash1, geoHash2) {
   return distance;
 }
 
-
-// Rest of the code remains unchanged
-
-
 module.exports = GetAllPostedJobs;
