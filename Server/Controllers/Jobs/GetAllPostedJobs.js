@@ -2,43 +2,6 @@ const Job = require("../../Models/JobModel");
 const OrganizationModal = require("../../Models/Organization_Model");
 const generateGeoHash = require("../../utils/geoHashAlgorithm");
 
-function encodeGeohash(latitude, longitude, precision = 12) {
-  const BASE32 = '0123456789bcdefghjkmnpqrstuvwxyz';
-  let geohash = '';
-  
-  let minLat = -90;
-  let maxLat = 90;
-  let minLon = -180;
-  let maxLon = 180;
-  
-  let isEven = true;
-
-  for (let i = 0; i < precision; i++) {
-      let mid;
-      if (isEven) {
-          mid = (minLon + maxLon) / 2;
-          if (longitude > mid) {
-              geohash += '1';
-              minLon = mid;
-          } else {
-              geohash += '0';
-              maxLon = mid;
-          }
-      } else {
-          mid = (minLat + maxLat) / 2;
-          if (latitude > mid) {
-              geohash += '1';
-              minLat = mid;
-          } else {
-              geohash += '0';
-              maxLat = mid;
-          }
-      }
-      isEven = !isEven;
-  }
-
-  return geohash;
-}
 
 // Example usage:
 const latitude = 37.7749;  // Replace with the actual latitude
