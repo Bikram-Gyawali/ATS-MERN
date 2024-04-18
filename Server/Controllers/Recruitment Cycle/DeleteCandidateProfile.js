@@ -22,25 +22,4 @@ const DeleteCandidateProfile = async (req, res, next) => {
     }
 };
 
-// const { id } = req.body;
-// console.log(id);
-// const findUser = await Candidate.findByIdAndRemove(id);
-
-// if (findUser) {
-//     try {
-//         findUser.save();
-
-//     } catch (error) {
-//         return res.status(500).json({ message: "Server Error" })
-//     }
-
-//     return res.status(200).json({ message: "User delete successfully" })
-// }
-// else {
-//     return res.status(404).json({ message: "No user found" })
-// }
-
-
-
-
 module.exports = DeleteCandidateProfile;
