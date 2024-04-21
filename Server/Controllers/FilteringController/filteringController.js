@@ -123,15 +123,26 @@ function calculateIDF(tokens) {
 }
 
 // Function to calculate TF-IDF
+// function calculateTFIDF(tf, idf) {
+//   const tfidf = {};
+//   for (const term in tf) {
+//     if (idf.hasOwnProperty(term)) {
+//       tfidf[term] = tf[term] * idf[term];
+//     }
+//   }
+//   return tfidf;
+// }
+
 function calculateTFIDF(tf, idf) {
   const tfidf = {};
   for (const term in tf) {
     if (idf.hasOwnProperty(term)) {
-      tfidf[term] = tf[term] * idf[term];
+      tfidf[term] = Math.abs(tf[term] * idf[term]);
     }
   }
   return tfidf;
 }
+
 
 // Function to calculate similarity between two documents using cosine similarity
 function calculateSimilarity(tfidf1, tokens2, idf2) {
@@ -149,7 +160,9 @@ function calculateSimilarity(tfidf1, tokens2, idf2) {
   }
 
   const magnitude = Math.sqrt(mag1) * Math.sqrt(mag2);
-  return magnitude === 0 ? 0 : dotProduct / magnitude;
+  const result = magnitude === 0 ? 0 : dotProduct / magnitude;
+
+  return Math.abs(result);
 }
 
 /**
@@ -199,6 +212,13 @@ function testSimilarity() {
   const tfidfResume1 = calculateTFIDF(tfResume1, idfJobDescription);
   const tfidfResume2 = calculateTFIDF(tfResume2, idfJobDescription);
   const tfidfResume3 = calculateTFIDF(tfResume3, idfJobDescription);
+  // console.log("resume 3 : ", resume3)
+  // console.log("resume 2 :", resume2)
+  // console.log("job description: ", jobDescription);
+  // console.log("tfidf of resume3: ", tfidfResume3);
+  // console.log("tfidf of resume2: ", tfidfResume2);
+  // console.log("tfidf of resume3: ", tfidfResume3);
+
   // console.log("TF-IDF of resume1:", tfidfResume1);
   const similarity1 = calculateSimilarity(tfidfResume1, tokenizedJobDescription, idfJobDescription);
   const similarity2 = calculateSimilarity(tfidfResume2, tokenizedJobDescription, idfJobDescription);
