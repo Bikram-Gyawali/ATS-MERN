@@ -122,16 +122,6 @@ function calculateIDF(tokens) {
   return idf;
 }
 
-// Function to calculate TF-IDF
-// function calculateTFIDF(tf, idf) {
-//   const tfidf = {};
-//   for (const term in tf) {
-//     if (idf.hasOwnProperty(term)) {
-//       tfidf[term] = tf[term] * idf[term];
-//     }
-//   }
-//   return tfidf;
-// }
 
 function calculateTFIDF(tf, idf) {
   const tfidf = {};
